@@ -2,7 +2,7 @@
 
 Microservicio backend para gestión de leads construido con NestJS y TypeScript.
 
-## 🛠️ Stack Tecnológico
+## Stack Tecnológico
 
 - **NestJS** - Framework backend
 - **TypeScript** - Lenguaje de programación
@@ -11,7 +11,7 @@ Microservicio backend para gestión de leads construido con NestJS y TypeScript.
 - **Bull** - Procesamiento de colas asíncrono
 - **OpenAI** - Integración IA para resúmenes
 
-## 📋 Requisitos Previos
+## Requisitos Previos
 
 - Node.js 18+
 - npm o yarn
@@ -19,7 +19,7 @@ Microservicio backend para gestión de leads construido con NestJS y TypeScript.
 - Redis (local o cloud como Upstash)
 - API Key de OpenAI
 
-## 🚀 Instalación
+## Instalación
 
 ### 1. Clonar e instalar dependencias
 
@@ -37,8 +37,7 @@ Crear archivo `.env` en la raíz del proyecto:
 DATABASE_URL=postgresql://postgres:[PASSWORD]@db.[PROJECT-REF].supabase.co:5432/postgres
 
 # Redis
-REDIS_HOST=localhost
-REDIS_PORT=6379
+REDIS_URL=rediss://default:password@host.upstash.io:6379
 
 # OpenAI
 OPENAI_API_KEY=sk-your-openai-api-key
@@ -97,7 +96,7 @@ npm run build
 npm run start:prod
 ```
 
-## 📚 API Endpoints
+## API Endpoints
 
 Todos los endpoints requieren autenticación mediante API Key en el header:
 
@@ -121,7 +120,7 @@ x-api-key: your-api-key
 | POST | `/sync/trigger` | Dispara sincronización manual |
 | POST | `/sync/trigger?count=5` | Sincroniza N leads |
 
-## 📝 Ejemplos de Uso
+## Ejemplos de Uso
 
 ### Crear un lead
 
@@ -168,7 +167,7 @@ curl -X POST "http://localhost:3000/sync/trigger?count=10" \
   -H "x-api-key: your-api-key"
 ```
 
-## 🏗️ Arquitectura
+## Arquitectura
 
 ```
 src/
@@ -199,19 +198,19 @@ src/
 └── main.ts
 ```
 
-## ⚙️ Características Implementadas
+## Características Implementadas
 
-- ✅ CRUD de leads con validación de DTOs
-- ✅ Cache Redis con TTL para detalle de leads
-- ✅ Autenticación por API Key
-- ✅ Colas de trabajo con Bull para procesos asíncronos
-- ✅ CRON job para sincronización periódica (cada hora)
-- ✅ Deduplicación por email y externalId
-- ✅ Integración con OpenAI para resúmenes
-- ✅ Manejo centralizado de errores
-- ✅ Logs detallados
+- CRUD de leads con validación de DTOs
+- Cache Redis con TTL para detalle de leads
+- Autenticación por API Key
+- Colas de trabajo con Bull para procesos asíncronos
+- CRON job para sincronización periódica (cada hora)
+- Deduplicación por email y externalId
+- Integración con OpenAI para resúmenes
+- Manejo centralizado de errores
+- Logs detallados
 
-## 🔄 Sincronización Automática
+## Sincronización Automática
 
 El sistema sincroniza leads desde [RandomUser API](https://randomuser.me) de forma automática:
 
@@ -219,7 +218,7 @@ El sistema sincroniza leads desde [RandomUser API](https://randomuser.me) de for
 - **Cantidad**: 10 leads por ejecución
 - **Deduplicación**: Por email y UUID externo
 
-## 🧠 Integración IA
+## Integración IA
 
 El endpoint `/leads/:id/summarize` utiliza GPT-3.5-turbo para generar:
 
@@ -232,6 +231,6 @@ El endpoint `/leads/:id/summarize` utiliza GPT-3.5-turbo para generar:
 
 Ambos campos se persisten en la base de datos asociados al lead.
 
-## 📄 Licencia
+## Licencia
 
 MIT

@@ -35,8 +35,8 @@ async function bootstrap() {
 
   await app.listen(port);
 
-  logger.log(`🚀 Contactship-mini is running on: http://localhost:${port}`);
-  logger.log(`📊 Environment: ${configService.get('NODE_ENV', 'development')}`);
+  logger.log(`Contactship-mini is running on: http://localhost:${port}`);
+  logger.log(`Environment: ${configService.get('NODE_ENV', 'development')}`);
 }
 
 bootstrap();

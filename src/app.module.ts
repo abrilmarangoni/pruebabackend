@@ -4,7 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CacheModule } from '@nestjs/cache-manager';
 import { BullModule } from '@nestjs/bull';
 import { ScheduleModule } from '@nestjs/schedule';
-import * as redisStore from 'cache-manager-redis-store';
+import { redisStore } from 'cache-manager-ioredis-yet';
+import Redis from 'ioredis';
 
 import { LeadsModule } from './leads/leads.module';
 import { AuthModule } from './auth/auth.module';
@@ -36,29 +37,39 @@ import { Lead } from './leads/entities/lead.entity';
       }),
     }),
 
-    // Cache - Redis
+    // Cache - Redis (Upstash with TLS)
     CacheModule.registerAsync({
       isGlobal: true,
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        store: redisStore,
-        host: configService.get<string>('REDIS_HOST', 'localhost'),
-        port: configService.get<number>('REDIS_PORT', 6379),
-        ttl: 300, // 5 minutes default TTL
-      }),
+      useFactory: async (configService: ConfigService) => {
+        const redisUrl = configService.get<string>('REDIS_URL');
+        return {
+          store: await redisStore({
+            url: redisUrl,
+            tls: {},
+            ttl: 300000,
+          }),
+        };
+      },
     }),
 
-    // Queue - Bull with Redis
+    // Queue - Bull with Redis (Upstash with TLS)
     BullModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        redis: {
-          host: configService.get<string>('REDIS_HOST', 'localhost'),
-          port: configService.get<number>('REDIS_PORT', 6379),
-        },
-      }),
+      useFactory: (configService: ConfigService) => {
+        const redisUrl = configService.get<string>('REDIS_URL') || '';
+        return {
+          createClient: (type) => {
+            return new Redis(redisUrl, {
+              maxRetriesPerRequest: type === 'client' ? 20 : null,
+              enableReadyCheck: false,
+              tls: {},
+            });
+          },
+        };
+      },
     }),
 
     // Scheduler for CRON jobs

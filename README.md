@@ -1,5 +1,16 @@
 # Contactship-Mini
 
+Hola equipo, soy Abie!
+
+Esta es mi entrega para la prueba técnica de Backend con NestJS.
+El objetivo de esta implementación fue demostrar cómo diseño y construyo un microservicio backend realista, priorizando claridad, buenas decisiones técnicas, estructura, escalabilidad y mantenibilidad, más que una solución "perfecta".
+
+Intenté cubrir todos los requisitos funcionales y no funcionales propuestos, documentando claramente cómo correr el proyecto y qué decisiones tomé en cada parte.
+
+Gracias por el tiempo de revisión.
+
+---
+
 Microservicio backend para gestión de leads construido con NestJS y TypeScript.
 
 ## Stack Tecnológico
